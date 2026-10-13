@@ -135,6 +135,13 @@
       <button type="submit">添加 Todo</button>
     </form>
 
+    <div class="filters" aria-label="Todo 筛选">
+      <button type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button type="button" data-filter="active" aria-pressed="false">未完成</button>
+      <button type="button" data-filter="done" aria-pressed="false">已完成</button>
+      <button type="button" id="clear-completed">清除已完成</button>
+    </div>
+
     <section aria-labelledby="list-title">
       <div class="list-heading">
         <h2 id="list-title">我的 Todo</h2>
@@ -171,9 +178,17 @@
       }
     }
 
+    function visibleTodos() {
+      return todos.filter((todo) => {
+        if (filter === 'done') return todo.completed;
+        if (filter === 'active') return !todo.completed;
+        return true;
+      });
+    }
+
     function render() {
       list.innerHTML = '';
-      const shown = todos;
+      const shown = visibleTodos();
       countHint.textContent = `共 ${todos.length} 项，当前显示 ${shown.length} 项`;
 
       if (shown.length === 0) {
@@ -202,6 +217,9 @@
         list.appendChild(li);
       });
 
+      filterButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.filter === filter));
+      });
     }
 
     function addTodo(text) {
@@ -227,6 +245,12 @@
       render();
     }
 
+    function setFilter(nextFilter) {
+      if (!['all', 'active', 'done'].includes(nextFilter)) return;
+      filter = nextFilter;
+      render();
+    }
+
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       addTodo(input.value);
@@ -234,6 +258,11 @@
       input.focus();
     });
 
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => setFilter(button.dataset.filter));
+    });
+
+    clearCompletedButton.addEventListener('click', clearCompleted);
     render();
   </script>
 </body>
