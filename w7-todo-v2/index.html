@@ -251,6 +251,13 @@
       render();
     }
 
+    // 本函数按课件要求脱离 AI 独立完成。
+    function clearCompleted() {
+      todos = todos.filter((todo) => !todo.completed);
+      save();
+      render();
+    }
+
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       addTodo(input.value);
