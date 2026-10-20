@@ -111,6 +111,7 @@
     .todo-item.is-done { background: var(--done); color: var(--muted); }
     .todo-text { flex: 1; overflow-wrap: anywhere; cursor: pointer; }
     .todo-text.is-done { text-decoration: line-through; }
+    .edit-button { padding: 3px 8px; }
     .delete-button { padding: 3px 8px; color: #fff; background: #555; }
     .empty { color: var(--muted); }
 
@@ -207,13 +208,19 @@
         text.className = `todo-text${todo.completed ? ' is-done' : ''}`;
         text.textContent = todo.text;
 
+        const editButton = document.createElement('button');
+        editButton.className = 'edit-button';
+        editButton.dataset.action = 'edit';
+        editButton.type = 'button';
+        editButton.textContent = '编辑';
+
         const deleteButton = document.createElement('button');
         deleteButton.className = 'delete-button';
         deleteButton.dataset.action = 'delete';
         deleteButton.type = 'button';
         deleteButton.textContent = '删除';
 
-        li.append(text, deleteButton);
+        li.append(text, editButton, deleteButton);
         list.appendChild(li);
       });
 
@@ -229,8 +236,11 @@
       const id = item.dataset.id;
       if (!id) return;
       const delBtn = event.target.closest('[data-action="delete"]');
+      const editBtn = event.target.closest('[data-action="edit"]');
       if (delBtn && item.contains(delBtn)) {
         deleteTodo(id);
+      } else if (editBtn && item.contains(editBtn)) {
+        editTodo(id);
       } else {
         toggleTodo(id);
       }
@@ -248,6 +258,20 @@
     function deleteTodo(id) {
       console.log('[delete]', id);
       todos = todos.filter((todo) => String(todo.id) !== id);
+      save();
+      render();
+    }
+
+    function editTodo(id) {
+      const todo = todos.find((item) => String(item.id) === id);
+      if (!todo) return;
+      const nextText = window.prompt('请输入新的 Todo 内容：', todo.text);
+      if (nextText === null) return;
+      const cleanText = nextText.trim();
+      if (cleanText === '') return;
+      todos = todos.map((item) => (
+        String(item.id) === id ? { ...item, text: cleanText } : item
+      ));
       save();
       render();
     }
