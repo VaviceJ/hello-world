@@ -206,14 +206,12 @@
         const text = document.createElement('span');
         text.className = `todo-text${todo.completed ? ' is-done' : ''}`;
         text.textContent = todo.text;
-        text.addEventListener('click', () => toggleTodo(todo.id));
 
         const deleteButton = document.createElement('button');
         deleteButton.className = 'delete-button';
         deleteButton.dataset.action = 'delete';
         deleteButton.type = 'button';
         deleteButton.textContent = '删除';
-        deleteButton.addEventListener('click', () => removeTodo(todo.id));
 
         li.append(text, deleteButton);
         list.appendChild(li);
@@ -223,6 +221,19 @@
         button.setAttribute('aria-pressed', String(button.dataset.filter === filter));
       });
     }
+
+    list.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const item = event.target.closest('li');
+      if (!item || !list.contains(item)) return;
+      const id = item.dataset.id;
+      if (!id) return;
+      const delBtn = event.target.closest('[data-action="delete"]');
+      if (delBtn && item.contains(delBtn)) {
+        deleteTodo(id);
+      }
+      toggleTodo(id);
+    });
 
     function addTodo(text) {
       const cleanText = String(text).trim();
@@ -234,12 +245,14 @@
     }
 
     function removeTodo(id) {
+      console.log('[delete]', id);
       todos = todos.filter((todo) => todo.id !== id);
       save();
       render();
     }
 
     function toggleTodo(id) {
+      console.log('[toggle]', id);
       todos = todos.map((todo) => (
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       ));
