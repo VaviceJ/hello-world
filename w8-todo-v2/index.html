@@ -247,7 +247,7 @@
 
     function deleteTodo(id) {
       console.log('[delete]', id);
-      todos = todos.filter((todo) => todo.id !== id);
+      todos = todos.filter((todo) => String(todo.id) !== id);
       save();
       render();
     }
@@ -255,7 +255,7 @@
     function toggleTodo(id) {
       console.log('[toggle]', id);
       todos = todos.map((todo) => (
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        String(todo.id) === id ? { ...todo, completed: !todo.completed } : todo
       ));
       save();
       render();
