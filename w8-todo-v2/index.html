@@ -231,8 +231,9 @@
       const delBtn = event.target.closest('[data-action="delete"]');
       if (delBtn && item.contains(delBtn)) {
         deleteTodo(id);
+      } else {
+        toggleTodo(id);
       }
-      toggleTodo(id);
     });
 
     function addTodo(text) {
