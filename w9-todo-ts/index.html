@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Todo 列表 V2.0 · TypeScript</title>
+  <style>
+    :root { color-scheme: light; --ink: #111; --muted: #666; --line: #cfcfcf; --surface: #fff; --bg: #f5f5f5; --accent: #111; --done: #ececec; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; padding: 32px 18px; background: var(--bg); color: var(--ink); font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.6; }
+    .app-shell { width: min(100%, 720px); margin: 0 auto; padding: 28px; background: var(--surface); border: 1px solid #222; border-radius: 4px; }
+    h1, h2, p { margin-top: 0; }
+    h1 { margin-bottom: 8px; }
+    .intro, .hint, .empty { color: var(--muted); }
+    .todo-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; margin: 22px 0 14px; }
+    label { font-weight: 700; }
+    input { width: 100%; min-width: 0; margin-top: 6px; padding: 11px 12px; border: 1px solid #777; border-radius: 3px; font: inherit; }
+    button { align-self: end; padding: 11px 16px; border: 0; border-radius: 3px; color: #fff; background: var(--accent); font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover { background: #333; }
+    button:focus-visible { outline: 2px solid #777; outline-offset: 2px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .filters button { color: var(--ink); background: #eee; }
+    .filters button[aria-pressed="true"] { color: #fff; background: var(--accent); }
+    .list-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .hint { font-size: .9rem; }
+    .todo-list { display: grid; gap: 8px; min-height: 48px; margin: 0; padding: 0; list-style: none; }
+    .todo-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-left: 3px solid var(--accent); background: #fafafa; }
+    .todo-item.is-done { background: var(--done); color: var(--muted); }
+    .todo-text { flex: 1; overflow-wrap: anywhere; cursor: pointer; }
+    .todo-text.is-done { text-decoration: line-through; }
+    .edit-button, .delete-button { padding: 3px 8px; }
+    .delete-button { color: #fff; background: #555; }
+    @media (max-width: 540px) { body { padding: 18px 12px; } .app-shell { padding: 22px 18px; } .todo-form { grid-template-columns: 1fr; } .todo-form button { width: 100%; } }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <h1>Todo 列表 V2.0</h1>
+    <p class="intro">状态统一由 todos 数组管理，页面是数据的可重复生成结果。本周迁移为严格 TypeScript。</p>
+
+    <form class="todo-form" id="todo-form">
+      <label for="todo-input">Todo 内容<input id="todo-input" type="text" placeholder="例如：完成实验报告" autocomplete="off"></label>
+      <button type="submit">添加 Todo</button>
+    </form>
+
+    <div class="filters" aria-label="Todo 筛选">
+      <button type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button type="button" data-filter="active" aria-pressed="false">未完成</button>
+      <button type="button" data-filter="done" aria-pressed="false">已完成</button>
+      <button type="button" id="clear-completed">清除已完成</button>
+    </div>
+
+    <section aria-labelledby="list-title">
+      <div class="list-heading"><h2 id="list-title">我的 Todo</h2><span class="hint" id="count-hint">共 0 项</span></div>
+      <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
+    </section>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
