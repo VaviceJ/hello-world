@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Todo 列表 V4.0 · React</title>
+  <style>
+    :root { color-scheme: light; --ink: #111; --muted: #666; --line: #cfcfcf; --surface: #fff; --bg: #f5f5f5; --accent: #111; --done: #ececec; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; padding: 32px 18px; background: var(--bg); color: var(--ink); font-family: "Microsoft YaHei", Arial, sans-serif; line-height: 1.6; }
+    .app-shell { width: min(100%, 720px); margin: 0 auto; padding: 28px; background: var(--surface); border: 1px solid #222; border-radius: 4px; }
+    h1, h2, p { margin-top: 0; }
+    h1 { margin-bottom: 8px; }
+    .intro, .hint, .empty { color: var(--muted); }
+    .todo-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; margin: 22px 0 14px; }
+    label { font-weight: 700; }
+    input { width: 100%; min-width: 0; margin-top: 6px; padding: 11px 12px; border: 1px solid #777; border-radius: 3px; font: inherit; }
+    button { align-self: end; padding: 11px 16px; border: 0; border-radius: 3px; color: #fff; background: var(--accent); font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover { background: #333; }
+    button:focus-visible { outline: 2px solid #777; outline-offset: 2px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .filters button { color: var(--ink); background: #eee; }
+    .filters button[aria-pressed="true"] { color: #fff; background: var(--accent); }
+    .list-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .hint { font-size: .9rem; }
+    .todo-list { display: grid; gap: 8px; min-height: 48px; margin: 0; padding: 0; list-style: none; }
+    .todo-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-left: 3px solid var(--accent); background: #fafafa; }
+    .todo-item.is-done { background: var(--done); color: var(--muted); }
+    .todo-text { flex: 1; overflow-wrap: anywhere; cursor: pointer; }
+    .todo-text.is-done { text-decoration: line-through; }
+    .edit-button, .delete-button { padding: 3px 8px; }
+    .delete-button { color: #fff; background: #555; }
+    @media (max-width: 540px) { body { padding: 18px 12px; } .app-shell { padding: 22px 18px; } .todo-form { grid-template-columns: 1fr; } .todo-form button { width: 100%; } }
+  </style>
+</head>
+<body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>
